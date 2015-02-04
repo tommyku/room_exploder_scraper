@@ -28,3 +28,9 @@ class CourseItem(scrapy.Item):
     code = scrapy.Field()
     name = scrapy.Field()
     credit = scrapy.Field()
+
+class TimeslotItem(scrapy.Item):
+    wd = scrapy.Field()
+    start = scrapy.Field()
+    end = scrapy.Field()
+    room = scrapy.Field()
