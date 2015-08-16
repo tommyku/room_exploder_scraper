@@ -76,7 +76,7 @@ class CourseSpider(scrapy.Spider):
         exporter.start_exporting()
         for i in range(0, len(courses), 4):
             dept, code, name, credit = courses[i], courses[i+1], courses[i+2], courses[i+3]
-            print dept, code, name, credit
+            self.logger.info("%s %s %s %s", dept, code, name, credit)
 
             item = CourseItem()
             item['dept'] = dept
