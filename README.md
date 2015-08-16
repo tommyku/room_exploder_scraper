@@ -15,7 +15,7 @@ Configuration
 1. Install Python 2.7 and pip
 
    ```bash
-   sudo apt-get install python2.7 pip
+   sudo apt-get install python2.7 python2.7-dev pip
    ```
 
 2. Install Scrapy
