@@ -95,16 +95,16 @@ class SectionSpider(scrapy.Spider):
                     session['instructor'] = set(row.xpath('td[4]/a/text()').extract()) # set() makes sure it is unique
                     session['code'] = self.getClassCode(row.xpath('td[1]/text()')) # class code beside session
                     session['timeslots'] = []
-                    session['timeslots'] = session['timeslots'] + (self.parseTime(row.xpath('td[2]/text()').extract()[0], row.xpath('td[3]/text()').extract()[0]))
+                    session['timeslots'] = session['timeslots'] + (self.parseTime(row.xpath('td[2]/text()').extract(), row.xpath('td[3]/text()').extract()[0]))
                 else:
                     # not new session, add instructor and timeslots
                     session['instructor'] = session['instructor'].union(set(row.xpath('td[4]/a/text()').extract()))
-                    session['timeslots'] = session['timeslots'] + (self.parseTime(row.xpath('td[1]/text()').extract()[0], row.xpath('td[2]/text()').extract()[0]))
+                    session['timeslots'] = session['timeslots'] + (self.parseTime(row.xpath('td[1]/text()').extract(), row.xpath('td[2]/text()').extract()[0]))
 
-        if (session != None):
-            # close the last one
-            session['instructor'] = list(session['instructor'])
-            exporter.export_item(session)
+            if (session != None):
+                # close the last one
+                session['instructor'] = list(session['instructor'])
+                exporter.export_item(session)
 
         exporter.finish_exporting()
 
@@ -140,11 +140,8 @@ class SectionSpider(scrapy.Spider):
         elif (tstr == "Su"): return 0
         return -1
 
-    def getRoom(self, room):
-        return room
-
     def parseTime(self, tstr, room):
-        room = self.getRoom(room)
+        tstr = tstr[0] if len(tstr) == 1 else tstr[1]
         if (re.match('[a-zA-Z]{2} [0-9]{2}\:[0-9]{2}(PM|AM) - [0-9]{2}\:[0-9]{2}(PM|AM)',tstr)):
             rtnObj = [{"wd":self.getWeekDayIndexFromName(tstr[0:2]), "start": self.getTimeIndexFromTimeStr(tstr[3:10]), "end": self.getTimeIndexFromTimeStr(tstr[13:20]), "room": room}]
             return rtnObj
