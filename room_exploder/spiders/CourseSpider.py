@@ -68,7 +68,7 @@ class CourseSpider(scrapy.Spider):
     def parse(self, response):
         dept = response.url.split("/")[-1]
 
-        courses = response.xpath('//*[@id="classes"]/div[@class="course"]/h2/text()').re('^([A-Z]{4}) ([0-9]{4}[A-Z]{0,1}) - (.*) \(([0-9]{1,2}) units\)')
+        courses = response.xpath('//*[@id="classes"]/div[@class="course"]/h2/text()').re('^([A-Z]{4}) ([0-9]{4}[A-Z]{0,1}) - (.*) \(([0-9]{1,2}) unit[s]{0,1}\)')
 
         f = open('./courses/'+dept+'.json', "w+")
         exporter = JsonItemExporter(f)
